@@ -20,10 +20,10 @@ const App = () => {
   const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
 
-    const cached = JSON.parse(getCachedValues());
-
     const successMessage = `This number (${value}) is prime`;
     const rejectMessage = `This number (${value}) is NOT prime`;
+
+    const cached = JSON.parse(getCachedValues());
 
     if (!Number.isInteger(parseInt(value))) {
       changeResultMessage("Enter a number");
@@ -39,15 +39,16 @@ const App = () => {
     const cachedValue = checkIfValueCached(number, cached);
 
     if (cachedValue.length > 0) {
-      cachedValue[0].value
-        ? changeResultMessage(`${successMessage} GOT FROM CACHE`)
-        : changeResultMessage(`${rejectMessage} GOT FROM CACHE`);
+      const text = cachedValue[0].value
+        ? `${successMessage} GOT FROM CACHE`
+        : `${rejectMessage} GOT FROM CACHE`;
+
+      changeResultMessage(text);
     } else {
       const resultTemp = isPrime(number);
-      resultTemp
-        ? changeResultMessage(`${successMessage}`)
-        : changeResultMessage(`${rejectMessage}`);
+      const text = resultTemp ? successMessage : rejectMessage;
 
+      changeResultMessage(text);
       setCachedValues(cached, number, resultTemp);
     }
   };
